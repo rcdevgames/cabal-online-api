@@ -1,0 +1,10 @@
+{
+  "apiName": "Cabal Online API",
+  "version": "1.0.0",
+  "port": 3000,
+  "database": {
+    "server": "127.0.0.1",
+    "user": "sa",
+    "password": "cabal"
+  }
+}
