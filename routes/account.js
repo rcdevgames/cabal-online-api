@@ -121,4 +121,11 @@ router.post('/login', [
   }).catch(next);
 });
 
+// Endpoint to validate token
+router.get('/me', (req, res) => {
+  res.json({
+    user: req.user,
+  });
+});
+
 module.exports = router;
