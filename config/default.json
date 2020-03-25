@@ -2,6 +2,10 @@
   "apiName": "Cabal Online API",
   "version": "1.0.0",
   "port": 3000,
+  "jwt": {
+    "secret": "cabalonlinejwtsecret",
+    "expiry": 86400
+  },
   "database": {
     "server": "127.0.0.1",
     "user": "sa",

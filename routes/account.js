@@ -9,6 +9,7 @@ const {
   body,
   validationResult,
 } = require('express-validator');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -80,6 +81,40 @@ router.post('/register', [
       res.status(500).json({
         errors: [{
           msg: 'Account could not be created',
+        }],
+      });
+    }
+  }).catch(next);
+});
+
+router.post('/login', [
+  body('username')
+    .not().isEmpty().withMessage('Username cannot be empty')
+    .trim()
+    .escape(),
+  body('password')
+    .not().isEmpty().withMessage('Password cannot be empty'),
+], (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  sql.connect(config.get('database')).then(pool => {
+    return pool.request()
+      .input('username', sql.VarChar, req.body.username)
+      .input('password', sql.VarChar, req.body.password)
+      .query('SELECT TOP 1 UserNum, ID, Email FROM Account.dbo.cabal_auth_table WHERE ID = @username AND PWDCOMPARE(@password, password) = 1');
+  }).then(result => {
+    if (result.recordset && result.recordset.length !== 0) {
+      res.json({
+        user: result.recordset[0],
+        msg: 'Login was successful',
+        token: jwt.sign(result.recordset[0], config.get('jwt.secret'), { expiresIn: config.get('jwt.expiry') }),
+      });
+    } else {
+      res.status(401).json({
+        errors: [{
+          msg: 'Username or password is incorrect',
         }],
       });
     }

@@ -8,6 +8,7 @@ const logger = require('morgan');
 const path = require('path');
 const cors = require('cors');
 const config = require('config');
+const jwt = require('express-jwt');
 
 const app = express();
 const PORT = process.env.PORT || config.get('port');
@@ -29,6 +30,9 @@ app.use(bodyParser.urlencoded({
 
 // Enable CORS
 app.use(cors());
+
+// Apply JWT validator middleware
+app.use(jwt({ secret: config.get('jwt.secret')}).unless({path: ['/', '/account/register', '/account/login']}));
 
 // Routes
 app.use('/', require(path.join(__dirname, 'routes/default')));
