@@ -30,3 +30,9 @@ REST API built using NodeJS for Cabal Online.
 | /account/login    | POST   | Receive JWT          | username, password        | No
 
 JWT token has to be sent in ``Authorization`` header with ``Bearer`` prefix for all routes where JWT is required.
+
+## Clients
+
+The following are the clients available for the API
+
+* Web client: https://github.com/cyberinferno/cabal-online-api-client
