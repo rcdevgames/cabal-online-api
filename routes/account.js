@@ -103,7 +103,8 @@ router.post('/login', [
     return pool.request()
       .input('username', sql.VarChar, req.body.username)
       .input('password', sql.VarChar, req.body.password)
-      .query('SELECT TOP 1 UserNum, ID, Email FROM Account.dbo.cabal_auth_table WHERE ID = @username AND PWDCOMPARE(@password, password) = 1');
+      .query(`SELECT TOP 1 UserNum, ID, Email
+        FROM Account.dbo.cabal_auth_table WHERE ID = @username AND PWDCOMPARE(@password, password) = 1`);
   }).then(result => {
     if (result.recordset && result.recordset.length !== 0) {
       res.json({

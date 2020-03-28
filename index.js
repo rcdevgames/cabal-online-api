@@ -34,9 +34,18 @@ app.use(cors());
 // Apply JWT validator middleware
 app.use(jwt({ secret: config.get('jwt.secret')}).unless({path: ['/', '/account/register', '/account/login']}));
 
+// Making sure browser caching is disabled
+app.use((req, res, next) => {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  next();
+});
+
 // Routes
 app.use('/', require(path.join(__dirname, 'routes/default')));
 app.use('/account', require(path.join(__dirname, 'routes/account')));
+app.use('/character', require(path.join(__dirname, 'routes/character')));
 
 // 404 handler
 app.use((req, res, next) => {

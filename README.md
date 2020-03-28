@@ -7,6 +7,7 @@ REST API built using NodeJS for Cabal Online.
 * Register an account
 * Credentials validation and JWT generation
 * Validating JWT
+* Character listing and info
 
 ## Requirements
 
@@ -28,6 +29,8 @@ REST API built using NodeJS for Cabal Online.
 | /account/me       | GET    | Validate token       | -                         | Yes
 | /account/register | POST   | Register an account  | username, password, email | No
 | /account/login    | POST   | Receive JWT          | username, password        | No
+| /character        | GET    | Character list       | -                         | Yes
+| /character/:id    | GET    | Character info       | -                         | Yes
 
 JWT token has to be sent in ``Authorization`` header with ``Bearer`` prefix for all routes where JWT is required.
 
